@@ -13,7 +13,7 @@ embeddings = HuggingFaceBgeEmbeddings(
     encode_kwargs=encode_kwargs
 )
 
-loader = PyPDFLoader("bula_dipirona.pdf")
+loader = PyPDFLoader("/content/Zephyr-7B-beta-RAG-Demo/bula_dipirona.pdf")
 documents = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 texts = text_splitter.split_documents(documents)
@@ -24,4 +24,3 @@ except StopIteration:
     vector_store = None
 
 print("Vector Store Created.......")
-
