@@ -15,7 +15,7 @@ import ctransformers
 local_llm = "zephyr-7b-beta.Q4_K_M.gguf"
 
 config = {
-'max_new_tokens': 350,
+'max_new_tokens': 1024,
 'repetition_penalty': 1.1,
 'temperature': 0.1,
 'top_k': 50,
