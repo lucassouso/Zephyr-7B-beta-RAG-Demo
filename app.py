@@ -65,7 +65,14 @@ print("######################################################################")
 
 chain_type_kwargs = {"prompt": prompt}
 
-qa = RetrievalQA.from_chain_type(
+
+
+sample_prompts = ["Quais são os efeitos colaterais da dipirona?", "O que devo saber antes de tomar dipirona?"]
+
+def get_response(input):
+  query = input
+  chain_type_kwargs = {"prompt": prompt}  
+  qa = RetrievalQA.from_chain_type(
     llm=llm,
     chain_type="stuff",
     retriever=retriever,
@@ -73,17 +80,6 @@ qa = RetrievalQA.from_chain_type(
     chain_type_kwargs= chain_type_kwargs,
     verbose=True
  )
-
-response = qa(query)
-
-print(response)
-
-sample_prompts = ["Quais são os efeitos colaterais da dipirona?", "O que devo saber antes de tomar dipirona?"]
-
-def get_response(input):
-  query = input
-  chain_type_kwargs = {"prompt": prompt}
-  qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True, chain_type_kwargs=chain_type_kwargs, verbose=True)
   response = qa(query)
   return response
 
@@ -101,9 +97,9 @@ iface = gr.Interface(fn=get_response,
              title="Sir_Bulario Bot",
              description="Conversando com minha bula PDF.",
              examples=sample_prompts,
-             allow_screenshot=False,
-             allow_flagging=False
+             allow_flagging='never'
              )
+
 
 iface.launch(share=True)
 
