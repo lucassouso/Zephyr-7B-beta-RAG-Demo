@@ -6,3 +6,5 @@ chromadb
 langchain
 pypdf 
 PyPDF2
+gradio
+huggingface_hub
