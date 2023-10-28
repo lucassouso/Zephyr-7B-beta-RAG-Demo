@@ -15,7 +15,7 @@ import ctransformers
 local_llm = "zephyr-7b-beta.Q4_K_M.gguf"
 
 config = {
-'max_new_tokens': 1024,
+'max_new_tokens': 350,
 'repetition_penalty': 1.1,
 'temperature': 0.1,
 'top_k': 50,
@@ -27,24 +27,25 @@ config = {
 llm = CTransformers(
     model=local_llm,
     model_type="mistral",
-    lib="avx2",
-    gpu_layers=100
+    lib="cuda",
+    gpu_layers=100,
+    **config
 )
 print("LLM Initialized...")
 
 
-prompt_template = """Use the following pieces of information to answer the user's question.
-If you don't know the answer, just say that you don't know, don't try to make up an answer.
+prompt_template = """Use as informações dadas na base de conhecimento vinda do PDF, não responda nada que não estiver lá.
+Traga sempre o contexto de onde tirou a resposta.
 
 Context: {context}
 Question: {question}
 
-Only return the helpful answer below and nothing else.
-Helpful answer:
+Responda sempre em português brasileiro com resposta útil e direta.
+Resposta útil:
 """
 
 model_name = "BAAI/bge-large-en"
-model_kwargs = {'device': 'cpu'}
+model_kwargs = {'device': 'cuda'}
 encode_kwargs = {'normalize_embeddings': False}
 embeddings = HuggingFaceBgeEmbeddings(
     model_name=model_name,
@@ -56,7 +57,7 @@ embeddings = HuggingFaceBgeEmbeddings(
 prompt = PromptTemplate(template=prompt_template, input_variables=['context', 'question'])
 load_vector_store = Chroma(persist_directory="stores/bula_dipirona", embedding_function=embeddings)
 retriever = load_vector_store.as_retriever(search_kwargs={"k":1})
-# query = "what is the fastest speed for a greyhound dog?"
+# query = "O que preciso saber antes de tomar dipirona?"
 # semantic_search = retriever.get_relevant_documents(query)
 # print(semantic_search)
 
@@ -90,7 +91,7 @@ input = gr.Text(
                 label="Prompt",
                 show_label=False,
                 max_lines=1,
-                placeholder="Enter your prompt",
+                placeholder="Faça sua pergunta",
                 container=False,
             )
 
