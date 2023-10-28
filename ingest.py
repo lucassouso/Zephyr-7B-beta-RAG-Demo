@@ -13,11 +13,11 @@ embeddings = HuggingFaceBgeEmbeddings(
     encode_kwargs=encode_kwargs
 )
 
-loader = PyPDFLoader("pet.pdf")
+loader = PyPDFLoader("bula_dipirona.pdf")
 documents = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 texts = text_splitter.split_documents(documents)
 
-vector_store = Chroma.from_documents(texts, embeddings, collection_metadata={"hnsw:space": "cosine"}, persist_directory="stores/pet_cosine")
+vector_store = Chroma.from_documents(texts, embeddings, collection_metadata={"hnsw:space": "bula"}, persist_directory="stores/bula_dipirona")
 
 print("Vector Store Created.......")
