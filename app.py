@@ -71,16 +71,20 @@ sample_prompts = ["Quais são os efeitos colaterais da dipirona?", "O que devo s
 def get_response(input):
   query = input
   chain_type_kwargs = {"prompt": prompt}  
-  qa = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=retriever,
-    return_source_documents = True,
-    chain_type_kwargs= chain_type_kwargs,
-    verbose=True
- )
-  response = qa(query)
+  try:
+    qa = RetrievalQA.from_chain_type(
+      llm=llm,
+      chain_type="stuff",
+      retriever=retriever,
+      return_source_documents = True,
+      chain_type_kwargs= chain_type_kwargs,
+      verbose=True
+    )
+    response = qa(query)
+  except StopIteration:
+    response = None
   return response
+
 
 input = gr.Text(
                 label="Prompt",
