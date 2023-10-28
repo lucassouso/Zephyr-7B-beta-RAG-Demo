@@ -56,9 +56,9 @@ embeddings = HuggingFaceBgeEmbeddings(
 prompt = PromptTemplate(template=prompt_template, input_variables=['context', 'question'])
 load_vector_store = Chroma(persist_directory="stores/bula_dipirona", embedding_function=embeddings)
 retriever = load_vector_store.as_retriever(search_kwargs={"k":1})
-# query = "O que preciso saber antes de tomar dipirona?"
-# semantic_search = retriever.get_relevant_documents(query)
-# print(semantic_search)
+#query = "O que preciso saber antes de tomar dipirona?"
+#semantic_search = retriever.get_relevant_documents(query)
+#print(semantic_search)
 
 print("######################################################################")
 
@@ -72,6 +72,7 @@ def get_response(input):
   query = input
   chain_type_kwargs = {"prompt": prompt}  
   try:
+    print("Creating RetrievalQA object...")
     qa = RetrievalQA.from_chain_type(
       llm=llm,
       chain_type="stuff",
@@ -80,10 +81,13 @@ def get_response(input):
       chain_type_kwargs= chain_type_kwargs,
       verbose=True
     )
+    print("Running query...")
     response = qa(query)
   except StopIteration:
+    print("Caught StopIteration exception!")
     response = None
   return response
+
 
 
 input = gr.Text(
