@@ -18,6 +18,10 @@ documents = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 texts = text_splitter.split_documents(documents)
 
-vector_store = Chroma.from_documents(texts, embeddings, collection_metadata={"hnsw:space": "bula"}, persist_directory="stores/bula_dipirona")
+try:
+    vector_store = Chroma.from_documents(texts, embeddings, collection_metadata={"hnsw:space": "cosine"}, persist_directory="stores/bula_dipirona")
+except StopIteration:
+    vector_store = None
 
 print("Vector Store Created.......")
+
