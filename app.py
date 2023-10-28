@@ -43,6 +43,11 @@ Question: {question}
 Responda sempre em português brasileiro com resposta útil e direta.
 Resposta útil:
 """
+from transformers import AutoModel, AutoTokenizer
+
+# Carregando o modelo e o tokenizador
+model = AutoModel.from_pretrained('neuralmind/bert-base-portuguese-cased')
+tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
 
 model_name = "neuralmind/bert-base-portuguese-cased"  # Nome do modelo BERTimbau
 model_kwargs = {'device': 'cuda'}
