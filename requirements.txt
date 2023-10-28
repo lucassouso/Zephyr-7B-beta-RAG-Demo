@@ -1,5 +1,5 @@
 chainlit 
-ctransformers
+ctransformers[cuda]
 torch
 sentence_transformers
 chromadb 
