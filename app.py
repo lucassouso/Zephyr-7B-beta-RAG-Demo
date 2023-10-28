@@ -24,12 +24,8 @@ config = {
 'threads': int(os.cpu_count() / 2)
 }
 
-llm = CTransformers(
-    model=local_llm,
-    model_type="mistral",
-    lib="avx2", #for CPU use
-    **config
-)
+# Set gpu_layers to the number of layers to offload to GPU. Set to 0 if no GPU acceleration is available on your system.
+llm = AutoModelForCausalLM.from_pretrained("TheBloke/zephyr-7B-beta-GGUF", model_file="zephyr-7b-beta.Q4_K_M.gguf", model_type="mistral", gpu_layers=100)
 
 print("LLM Initialized...")
 
