@@ -4,8 +4,8 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceBgeEmbeddings
 from langchain.document_loaders import PyPDFLoader
 
-model_name = "BAAI/bge-large-en"
-model_kwargs = {'device': 'cpu'}
+model_name = "neuralmind/bert-base-portuguese-cased"  # Nome do modelo BERTimbau
+model_kwargs = {'device': 'cuda'}
 encode_kwargs = {'normalize_embeddings': False}
 embeddings = HuggingFaceBgeEmbeddings(
     model_name=model_name,
