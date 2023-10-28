@@ -9,9 +9,10 @@ from langchain.embeddings import HuggingFaceBgeEmbeddings
 from io import BytesIO
 from langchain.document_loaders import PyPDFLoader
 import gradio as gr
+import ctransformers
 
 
-local_llm = "zephyr-7b-beta.Q5_K_S.gguf"
+local_llm = "zephyr-7b-beta.Q4_K_M.gguf"
 
 config = {
 'max_new_tokens': 1024,
@@ -54,7 +55,7 @@ embeddings = HuggingFaceBgeEmbeddings(
 
 
 prompt = PromptTemplate(template=prompt_template, input_variables=['context', 'question'])
-load_vector_store = Chroma(persist_directory="stores/pet_cosine", embedding_function=embeddings)
+load_vector_store = Chroma(persist_directory="stores/bula_dipirona", embedding_function=embeddings)
 retriever = load_vector_store.as_retriever(search_kwargs={"k":1})
 # query = "what is the fastest speed for a greyhound dog?"
 # semantic_search = retriever.get_relevant_documents(query)
@@ -77,7 +78,7 @@ chain_type_kwargs = {"prompt": prompt}
 
 # print(response)
 
-sample_prompts = ["what is the fastest speed for a greyhound dog?", "Why should we not feed chocolates to the dogs?", "Name two factors which might contribute to why some dogs might get scared?"]
+sample_prompts = ["Quais são os efeitos colaterais da dipirona?", "O que devo saber antes de tomar dipirona?"]
 
 def get_response(input):
   query = input
@@ -97,14 +98,14 @@ input = gr.Text(
 iface = gr.Interface(fn=get_response, 
              inputs=input, 
              outputs="text",
-             title="My Dog PetCare Bot",
-             description="This is a RAG implementation based on Zephyr 7B Beta LLM.",
+             title="Sir_Bulario Bot",
+             description="Conversando com minha bula PDF.",
              examples=sample_prompts,
              allow_screenshot=False,
              allow_flagging=False
              )
 
-iface.launch()
+iface.launch(share=True)
 
 
 
