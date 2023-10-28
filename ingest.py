@@ -4,14 +4,8 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceBgeEmbeddings
 from langchain.document_loaders import PyPDFLoader
 
-from transformers import AutoModel, AutoTokenizer
-
-# Carregando o modelo e o tokenizador
-model = AutoModel.from_pretrained('neuralmind/bert-base-portuguese-cased')
-tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
-
-model_name = "neuralmind/bert-base-portuguese-cased"  # Nome do modelo BERTimbau
-model_kwargs = {'device': 'cuda'}
+model_name = "BAAI/bge-large-en"
+model_kwargs = {'device': 'cpu'}
 encode_kwargs = {'normalize_embeddings': False}
 embeddings = HuggingFaceBgeEmbeddings(
     model_name=model_name,
