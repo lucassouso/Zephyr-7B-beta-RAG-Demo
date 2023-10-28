@@ -44,7 +44,7 @@ Responda sempre em português brasileiro com resposta útil e direta.
 Resposta útil:
 """
 
-model_name = "BAAI/bge-large-en"
+model_name = "neuralmind/bert-base-portuguese-cased"  # Nome do modelo BERTimbau
 model_kwargs = {'device': 'cuda'}
 encode_kwargs = {'normalize_embeddings': False}
 embeddings = HuggingFaceBgeEmbeddings(
@@ -65,18 +65,18 @@ print("######################################################################")
 
 chain_type_kwargs = {"prompt": prompt}
 
-# qa = RetrievalQA.from_chain_type(
-#     llm=llm,
-#     chain_type="stuff",
-#     retriever=retriever,
-#     return_source_documents = True,
-#     chain_type_kwargs= chain_type_kwargs,
-#     verbose=True
-# )
+qa = RetrievalQA.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    retriever=retriever,
+    return_source_documents = True,
+    chain_type_kwargs= chain_type_kwargs,
+    verbose=True
+ )
 
-# response = qa(query)
+response = qa(query)
 
-# print(response)
+print(response)
 
 sample_prompts = ["Quais são os efeitos colaterais da dipirona?", "O que devo saber antes de tomar dipirona?"]
 
