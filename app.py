@@ -43,21 +43,15 @@ Question: {question}
 Responda sempre em português brasileiro com resposta útil e direta.
 Resposta útil:
 """
-from transformers import AutoModel, AutoTokenizer
 
-# Carregando o modelo e o tokenizador
-model = AutoModel.from_pretrained('neuralmind/bert-base-portuguese-cased')
-tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
-
-model_name = "neuralmind/bert-base-portuguese-cased"  # Nome do modelo BERTimbau
-model_kwargs = {'device': 'cuda'}
+model_name = "BAAI/bge-large-en"
+model_kwargs = {'device': 'cpu'}
 encode_kwargs = {'normalize_embeddings': False}
 embeddings = HuggingFaceBgeEmbeddings(
     model_name=model_name,
     model_kwargs=model_kwargs,
     encode_kwargs=encode_kwargs
 )
-
 
 prompt = PromptTemplate(template=prompt_template, input_variables=['context', 'question'])
 load_vector_store = Chroma(persist_directory="stores/bula_dipirona", embedding_function=embeddings)
